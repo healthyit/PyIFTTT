@@ -52,6 +52,7 @@ Auth required [app_id, location]
 * is_overcast(percentage)
 
 
+
 ## Example Use Case
 It started for me with wanting to be able turn on a heater in winter, if my household battery is full and the pannels are still drawing power. Yes it sell the power but it's cheaper to use it to warm the house ratehr than turn the heater on at night and buy power.
 
