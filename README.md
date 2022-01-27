@@ -5,4 +5,8 @@ If you are familiar with the website IFTTT (https://ifttt.com/),  this is the py
 
 It you are not familiar with it its a automation and workflow engine that people use with IOT and other automation projects. The basic principle is you add some conditions and an action to do if those conditions are meet. It's a simple but powerfull tool have a play.
 
+## What Does PyIFTTT add
+* Multiple conditions
+* Multiple actions
+* Add an Else for actions where the condition is not met
 
