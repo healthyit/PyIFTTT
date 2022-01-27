@@ -52,6 +52,7 @@ Auth required [app_id, location]
 It started for me with wanting to be able turn on a heater in winter, if my household battery is full and the pannels are still drawing power. Yes it sell the power but it's cheaper to use it to warm the house ratehr than turn the heater on at night and buy power.
 
 ### auth.yml
+'''
 Growatt:
   username: <username>
   password: <password>
@@ -61,8 +62,10 @@ OpenWeather:
 Meross:
   username: <username>
   password: <password>
+'''
   
 ### use_it_or_lose_it.yml
+'''
 name: If battery full and spare power turn on switch
 if:
   - app: Growatt
@@ -93,4 +96,5 @@ else:
     action: action_off
     args:
       device_uuid: '<hidden>'
+'''
 
