@@ -5,12 +5,14 @@ If you are familiar with the website IFTTT (https://ifttt.com/),  this is the py
 
 It you are not familiar with it its a automation and workflow engine that people use with IOT and other automation projects. The basic principle is you add some conditions and an action to do if those conditions are meet. It's a simple but powerfull tool have a play.
 
+
 ## What extra does PyIFTTT do?
 * Multiple conditions
 * Multiple actions
 * Add an Else for actions where the condition is not met
 * Unsupported apps - where there are backdoors, screen scraping etc you can add the app
 * Add your own conditions and actions
+
 
 ## Sugggested Usage
 Github has actions we are really useful to run things periodically. So I'd suggest
@@ -29,12 +31,14 @@ Auth required [Username, Password]
 * is_input_above(kilowatt) - if the current power from the solar pannels is above a number of kilowatts
 * is_input_below(kilowatt) - if the current power from the solar pannels is below a number of kilowatts
 
+
 ### Meross (Home IOT devices)
 Auth required [Username, Password]
 * is_on - is a switch on at the moment
 * is_off - is a switch off at the moment
 * action_on - turn a switch on
 * action_off - turn a switch off
+
 
 ### Open Weather
 Auth required [app_id, location]
@@ -48,7 +52,7 @@ Auth required [app_id, location]
 * is_overcast(percentage)
 
 
-## Example use Case
+## Example Use Case
 It started for me with wanting to be able turn on a heater in winter, if my household battery is full and the pannels are still drawing power. Yes it sell the power but it's cheaper to use it to warm the house ratehr than turn the heater on at night and buy power.
 
 ### auth.yml
