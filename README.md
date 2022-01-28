@@ -15,6 +15,8 @@ It you are not familiar with it its a automation and workflow engine that people
 
 
 ## Sugggested Usage
+If you are not adding new functionality the you can set these up without changing any python code, just setting up the Yaml config files to do what you want.
+
 Github has actions we are really useful to run things periodically. So I'd suggest
 1. Clone this repo to your own private repo in GitHub (so any app credentials are private
 2. Configure as many workflows yml files you need.
@@ -26,6 +28,7 @@ Github has actions we are really useful to run things periodically. So I'd sugge
 
 ## Current Apps
 ### Growatt (Solar and Batteries)
+Uses @'s library - thanks you!
 Auth required [Username, Password]
 * is_battery_full - if the state charge of the battery is 97-100% full
 * is_input_above(kilowatt) - if the current power from the solar pannels is above a number of kilowatts
@@ -33,6 +36,7 @@ Auth required [Username, Password]
 
 
 ### Meross (Home IOT devices)
+Uses @'s library - thanks you!
 Auth required [Username, Password]
 * is_on - is a switch on at the moment
 * is_off - is a switch off at the moment
@@ -103,3 +107,8 @@ else:
       device_uuid: '<hidden>'
 ```
 
+## Contribute
+If you are adding devices/apps or functions we'd ove you to add it to this repo too so other can benefit. Suggestions to core code or anything else is welcome! Create a branch off master and create a PR to master for me to review.
+
+## Support me/this project
+If you're using this project I'd love atributution of whatever your favorite coin is - https://commerce.coinbase.com/checkout/3c82da1c-5945-490f-8c57-a8fe8cf9abb6
