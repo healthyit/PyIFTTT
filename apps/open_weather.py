@@ -43,8 +43,8 @@ class OpenWeather(App):
     def is_before_nighttime(self, minutes):
         data = self.getCurrent()
         sunset_utc_ts = data['sys']['sunset']
-        now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
-        if (now_utc_ts - (minutes * 60)) < sunset_utc_ts:
+        now_utc_ts = int(time.mktime(datetime.datetime.now().timetuple()))
+        if now_utc_ts < (sunset_utc_ts  - (minutes * 60)):
             return True
         else:
             return False
@@ -53,7 +53,7 @@ class OpenWeather(App):
         data = self.getCurrent()
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
-        if sunset_utc_ts < (now_utc_ts + (minutes * 60)):
+        if (sunset_utc_ts + (minutes * 60)) < now_utc_ts:
             return True
         else:
             return False
