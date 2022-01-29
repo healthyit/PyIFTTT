@@ -107,6 +107,9 @@ else:
       device_uuid: '<hidden>'
 ```
 
+## Want some help?
+If you are having trouble setting this up or need some help with a some extra functions, reach out and I may be able to help.
+
 ## Contribute
 If you are adding devices/apps or functions we'd ove you to add it to this repo too so other can benefit. Suggestions to core code or anything else is welcome! Create a branch off master and create a PR to master for me to review.
 
