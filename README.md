@@ -54,7 +54,7 @@ Auth required [app_id, location]
 * is_after_daytime(minutes)
 * is_clear(percentage)
 * is_overcast(percentage)
-
+* is_min_temperature_below_c(celsius)
 
 
 ## Example Use Case
