@@ -1,0 +1,9 @@
+Growatt:
+  username: <enter here>
+  password: <enter here>
+OpenWeather:
+  app_id: <enter here>
+  location: Sydney, AU-NSW, AU
+Meross:
+  username: <enter here>
+  password: <enter here>
