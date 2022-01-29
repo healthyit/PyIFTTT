@@ -25,6 +25,18 @@ class OpenWeather(App):
 
     def getCurrent(self):
         resp = requests.get('https://api.openweathermap.org/data/2.5/weather?q={}&appid={}'.format(self.auth['location'],self.auth['app_id']))
+        # {"coord":{"lon":151.2073,"lat":-33.8679},
+        # "weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10n"}],
+        # "base":"stations",
+        # "main":{"temp":297.33,"feels_like":298.02,"temp_min":296.52,"temp_max":298.32,"pressure":1014,"humidity":85},
+        # "visibility":10000,
+        # "wind":{"speed":0.89,"deg":32,"gust":2.68},
+        # "rain":{"1h":0.11},
+        # "clouds":{"all":36},
+        # "dt":1643453131,
+        # "sys":{"type":2,"id":2018875,"country":"AU","sunrise":1643397193,"sunset":1643446978},
+        # "timezone":39600,"id":2147714,"name":"Sydney","cod":200}
+
         if resp.status_code == 200:
             return json.loads(resp.text)
         else:
@@ -44,7 +56,8 @@ class OpenWeather(App):
         data = self.getCurrent()
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.now().timetuple()))
-        if now_utc_ts < (sunset_utc_ts  - (minutes * 60)):
+        x_before_sunset = (sunset_utc_ts  - (minutes * 60))
+        if now_utc_ts < x_before_sunset:
             return True
         else:
             return False
@@ -53,7 +66,8 @@ class OpenWeather(App):
         data = self.getCurrent()
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
-        if (sunset_utc_ts + (minutes * 60)) < now_utc_ts:
+        x_after_sunset = (sunset_utc_ts + (minutes * 60))
+        if  x_after_sunset < now_utc_ts:
             return True
         else:
             return False
@@ -71,7 +85,7 @@ class OpenWeather(App):
     def is_before_daytime(self, minutes):
         data = self.getCurrent()
         sunrise_utc_ts = data['sys']['sunrise']
-        now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
+        now_utc_ts = int(time.mktime(datetime.datetime.now().timetuple()))
         if (now_utc_ts - (minutes * 60)) < sunrise_utc_ts:
             return True
         else:
@@ -80,7 +94,7 @@ class OpenWeather(App):
     def is_after_daytime(self, minutes):
         data = self.getCurrent()
         sunrise_utc_ts = data['sys']['sunrise']
-        now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
+        now_utc_ts = int(time.mktime(datetime.datetime.now().timetuple()))
         if sunrise_utc_ts < (now_utc_ts + (minutes * 60)):
             return True
         else:
@@ -103,4 +117,12 @@ class OpenWeather(App):
 
     def is_overcast(self, percentage):
         return not self.is_clear(100-percentage)
+    
+    def is_min_temperature_below_c(self, celsius):
+        data = self.getCurrent()
+        if data['main']['temp_min'] < celsius:
+            return True
+        else:
+            return False
+
 
