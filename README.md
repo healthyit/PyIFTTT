@@ -28,7 +28,7 @@ Github has actions we are really useful to run things periodically. So I'd sugge
 
 ## Current Apps
 ### Growatt (Solar and Batteries)
-Uses @'s library - thanks you!
+Uses https://github.com/indykoning/ 's library - thank you!
 Auth required [Username, Password]
 * is_battery_full - if the state charge of the battery is 97-100% full
 * is_input_above(kilowatt) - if the current power from the solar pannels is above a number of kilowatts
@@ -36,7 +36,7 @@ Auth required [Username, Password]
 
 
 ### Meross (Home IOT devices)
-Uses @'s library - thanks you!
+Uses https://github.com/albertogeniola/ 's library - thank you!
 Auth required [Username, Password]
 * is_on - is a switch on at the moment
 * is_off - is a switch off at the moment
