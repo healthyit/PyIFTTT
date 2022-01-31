@@ -111,7 +111,7 @@ else:
 If you are having trouble setting this up or need some help with a some extra functions, reach out and I may be able to help.
 
 ## Contribute
-If you are adding devices/apps or functions we'd ove you to add it to this repo too so other can benefit. Suggestions to core code or anything else is welcome! Create a branch off master and create a PR to master for me to review.
+If you are adding devices/apps or functions we'd love you to add it to this repo too so other can benefit. Suggestions to core code or anything else is welcome! Create a branch off master and create a PR to master for me to review.
 
 ## Support me/this project
-If you're using this project I'd love atributution of whatever your favorite coin is - https://commerce.coinbase.com/checkout/3c82da1c-5945-490f-8c57-a8fe8cf9abb6
+If you're using this project I'd love a contributution of whatever your favorite coin is - https://commerce.coinbase.com/checkout/3c82da1c-5945-490f-8c57-a8fe8cf9abb6
