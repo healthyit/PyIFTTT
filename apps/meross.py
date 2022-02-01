@@ -18,8 +18,10 @@ class Meross(App):
             if device._uuid == device_uuid:
                 data = device.get_sys_data()
                 if data['all']['digest']['togglex'][0]['onoff'] == 1:
+                    self.context.log('If [Meross: Is Device On] [{}]: True'.format(data['all']['digest']['togglex'][0]['onoff']))
                     return True
                 else:
+                    self.context.log('If [Meross: Is Device On] [{}]: False'.format(data['all']['digest']['togglex'][0]['onoff']))
                     return False
         return False
 
@@ -31,8 +33,10 @@ class Meross(App):
             if device._uuid == device_uuid:
                 data = device.get_sys_data()
                 if data['all']['digest']['togglex'][0]['onoff'] == 1:
+                    self.context.log('If [Meross: Is Device Off] [{}]: True'.format(data['all']['digest']['togglex'][0]['onoff']))
                     return False
                 else:
+                    self.context.log('If [Meross: Is Device Off] [{}]: False'.format(data['all']['digest']['togglex'][0]['onoff']))
                     return True
 
         return False
@@ -49,7 +53,9 @@ class Meross(App):
                     # Turns the power-plug on
                     print("\nTurning channel %d on..." % channel)
                     device.turn_on_channel(channel)
+                self.context.log('If [Meross: Action Turn Device On]: Success')
                 return True
+        self.context.log('If [Meross: Action Turn Device On]: Unsuccessful')
         return False
 
     def action_off(self, device_uuid):
@@ -64,5 +70,7 @@ class Meross(App):
                     # Turns the power-plug on
                     print("\nTurning channel %d on..." % channel)
                     device.turn_off_channel(channel)
+                self.context.log('If [Meross: Action Turn Device Off]: Success')
                 return True
-        return True
+        self.context.log('If [Meross: Action Turn Device Off]: Unsuccessful')
+        return False

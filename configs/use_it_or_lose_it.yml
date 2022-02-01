@@ -1,23 +1,19 @@
 name: If battery full and spare power turn on switch
 if:
+  - app: OpenWeather
+    condition: is_min_temperature_below_c
+    args:
+      celsius: 15
+  - app: OpenWeather
+    condition: is_before_nighttime
+    args:
+      minutes: 120
   - app: Growatt
     condition: is_battery_full
   - app: Growatt
     condition: is_input_above
     args:
-      kw: 3000
-  - app: OpenWeather
-    condition: is_before_nighttime
-    args:
-      minutes: 120
-  - app: OpenWeather
-    condition: is_average_temperature_below_c
-    args:
-      celsius: 15
-  - app: Meross
-    condition: is_on
-    args:
-      device_uuid: '2109070303221290855748e1e9752928'
+      kw: 3
 then:
   - app: Meross
     action: action_on
