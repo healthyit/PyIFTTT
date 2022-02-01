@@ -1,7 +1,7 @@
 class Context(object):
     def __init__(self, config):
         self.config = config
-        self.log_msg = 'PyIFTTT Log'
+        self.log_msg = 'PyIFTTT Log on {}'.format()
 
     def log(self, msg):
-        self.log_msg = '{}/n  {}'.format(self.log_msg, msg)
+        self.log_msg = '{}{}  {}'.format(self.log_msg, "\n", msg)

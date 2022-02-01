@@ -121,8 +121,10 @@ class OpenWeather(App):
     def is_min_temperature_below_c(self, celsius):
         data = self.getCurrent()
         if data['main']['temp_min'] < celsius:
+            self.context.log('If [OpenWeather: Min Temp Above {}c] [{}]: True'.format(celsius, data['main']['temp_min']))
             return True
         else:
+            self.context.log('If [OpenWeather: Min Temp Above {}c] [{}]: False'.format(celsius, data['main']['temp_min']))
             return False
 
 

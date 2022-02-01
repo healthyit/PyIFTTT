@@ -7,3 +7,5 @@ OpenWeather:
 Meross:
   username: <enter here>
   password: <enter here>
+Slack:
+  webhook: https://hooks.slack.com/services/123/456/789/

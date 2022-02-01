@@ -19,8 +19,12 @@ then:
     action: action_on
     args:
       device_uuid: '2109070303221290855748e1e9752928'
+  - app: Slack
+    action: action_report_log
 else:
   - app: Meross
     action: action_off
     args:
       device_uuid: '2109070303221290855748e1e9752928'
+  - app: Slack
+    action: action_report_log

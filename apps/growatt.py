@@ -15,7 +15,7 @@ class Growatt(App):
         login_response = self.api.login(self.auth['username'], self.auth['password'])
         self.user_id = login_response['user']['id']
 
-    def auth_usage(self):
+    def check_auth(self):
         self.check_auth_username_password()
 
     def is_battery_full(self):
