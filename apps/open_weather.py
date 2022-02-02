@@ -113,10 +113,17 @@ class OpenWeather(App):
         data = self.getCurrent()
         sunrise_utc_ts = data['sys']['sunrise']
         now_utc_ts = int(time.mktime(datetime.datetime.now().timetuple()))
-        if (now_utc_ts - (minutes * 60)) < sunrise_utc_ts:
-            return True
+        sunrise_utc_ts_minus_x = sunrise_utc_ts - (minutes * 60)
+        if now_utc_ts < sunrise_utc_ts_minus_x:
+            result = True
         else:
-            return False
+            result = False
+        self.context.log(
+            'If [OpenWeather: is Before Daytime - Now({}), {} before Sunrise({}), Sunrise({})] = {}'.format(now_utc_ts,
+                                                                                                            minutes,
+                                                                                                            sunrise_utc_ts_minus_x,
+                                                                                                            sunrise_utc_ts))
+        return result
 
     def is_after_daytime(self, minutes):
         data = self.getCurrent()
