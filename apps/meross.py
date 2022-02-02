@@ -7,6 +7,10 @@ from meross_iot.api import MerossHttpClient
 
 class Meross(App):
 
+    def check_auth_example(self):
+        logging.info('Example usage in Auth.yml:\n{}:\n  username: my_login\n  password: my_password'.format(
+            type(self).__name__))
+
     def check_auth(self):
         self.check_auth_username_password()
 

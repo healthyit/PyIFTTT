@@ -1,7 +1,6 @@
-import logging
-
 from .app import *
 import growattServer
+
 
 class Growatt(App):
 
@@ -11,52 +10,51 @@ class Growatt(App):
         self.user_id = None
 
     def init_api(self):
-        self.api = growattServer.GrowattApi()
-        login_response = self.api.login(self.auth['username'], self.auth['password'])
-        self.user_id = login_response['user']['id']
+        if self.api is None:
+            self.api = growattServer.GrowattApi()
+            login_response = self.api.login(self.auth['username'], self.auth['password'])
+            self.user_id = login_response['user']['id']
+
+    def check_auth_example(self):
+        self.context.log('Example usage in Auth.yml:\n{}:\n  username: my_login\n  password: my_password'.format(
+            type(self).__name__))
 
     def check_auth(self):
         self.check_auth_username_password()
 
     def is_battery_full(self):
-        if self.api is None:
-            self.init_api()
+        self.init_api()
         plants = self.api.plant_list(self.user_id)
         plant_data = self.api.plant_info(plants['data'][0]['plantId'])
-        logging.info('Current Battery Capacity: {}'.format(plant_data['deviceList'][0]['capacity']))
         if plant_data['deviceList'][0]['capacity'] in ('100%', '99%', '98%', '97%'):
-            self.context.log('If [Growatt: Battery Full] [{}]: True'.format(plant_data['deviceList'][0]['capacity']))
-            return True
+            result = True
         else:
-            self.context.log('If [Growatt: Battery Full] [{}]: False'.format(plant_data['deviceList'][0]['capacity']))
-            return False
-        # self.api.plant_list(1041214)
-        # self.api.plant_info('795598')
+            result = False
+        self.context.log(
+            'If [Growatt: Battery Full - Battery Capacity({}%)] = {}'.format(plant_data['deviceList'][0]['capacity']),
+            result)
+        return result
 
     def is_input_above(self, kw):
-        if self.api is None:
-            self.init_api()
+        self.init_api()
         plants = self.api.plant_list(self.user_id)
         plant_data = self.api.plant_info(plants['data'][0]['plantId'])
         result = self.api.mix_system_status(plant_data['deviceList'][0]['deviceAilas'], plants['data'][0]['plantId'])
-        logging.info('    [.] Current solar input: {}'.format(result['ppv']))
         if float(result['ppv']) > kw:
-            self.context.log('If [Growatt: Input Above {}] [{}]: True'.format(kw, result['ppv']))
-            return True
+            result = True
         else:
-            self.context.log('If [Growatt: Input Above {}] [{}]: False'.format(kw, result['ppv']))
-            return False
+            result = False
+        self.context.log('If [Growatt: Input Above {}kw ({}kw)] = {}'.format(kw, result['ppv'], result))
+        return result
 
     def is_input_below(self, kw):
-        if self.api is None:
-            self.init_api()
+        self.init_api()
         plants = self.api.plant_list(self.user_id)
         plant_data = self.api.plant_info(plants['data'][0]['plantId'])
         result = self.api.mix_system_status(plant_data['deviceList'][0]['deviceAilas'], plants['data'][0]['plantId'])
-        logging.info('    [.] Current solar input: {}'.format(result['ppv']))
         if float(result['ppv']) < kw:
-            self.context.log('If [Growatt: Input Below {}] [{}]: True'.format(kw, result['ppv']))
-            return True
+            result = True
         else:
-            self.context.log('If [Growatt: Input Below {}] [{}]: True'.format(kw, result['ppv']))
-            return False
+            result = False
+        self.context.log('If [Growatt: Input Below {}kw ({}kw)] = {}'.format(kw, result['ppv'], result))
+        return result

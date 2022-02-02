@@ -8,18 +8,23 @@ from .app import *
 
 class OpenWeather(App):
 
+    def check_auth_example(self):
+        self.context.log(
+            'Example usage in Auth.yml:\n{}:\n  location: Sydney, AU-NSW, AU\n  app_id: 1234567890\n  units: metric (optional)'.format(
+                type(self).__name__))
+
     def check_auth(self):
         try:
             self.check_auth_location()
         except AuthError:
-            logging.info('OpenWeather prefers the location as "City, State Code, Country Code" in ISO 3166 format.')
-            logging.info('ISO 3166: https://en.wikipedia.org/wiki/ISO_3166-1')
-            logging.info('Try your address here: https://openweathermap.org/find?')
+            self.context.log('OpenWeather prefers the location as "City, State Code, Country Code" in ISO 3166 format.')
+            self.context.log('ISO 3166: https://en.wikipedia.org/wiki/ISO_3166-1')
+            self.context.log('Try your address here: https://openweathermap.org/find?')
             raise AuthError
         auth = self.config['auth'].get(type(self).__name__, {})
         if not auth.get('app_id', False):
-            logging.info('OpenWeather needs an app_id for it''s APIs. Please add it to you auth.yml. You can sign up for a free one here: https://home.openweathermap.org/users/sign_up')
-            logging.info('Example usage in Auth.yml:\n{}:\n  location: Sydney, AU-NSW, AU\n  app_id: 1234567890\n  units: metric (optional)'.format(type(self).__name__))
+            self.context.log('OpenWeather needs an app_id for it''s APIs. Please add it to you auth.yml. You can sign up for a free one here: https://home.openweathermap.org/users/sign_up')
+            self.check_auth_example()
             raise AuthError
         return True
 
