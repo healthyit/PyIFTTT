@@ -19,12 +19,16 @@ class OpenWeather(App):
         auth = self.config['auth'].get(type(self).__name__, {})
         if not auth.get('app_id', False):
             logging.info('OpenWeather needs an app_id for it''s APIs. Please add it to you auth.yml. You can sign up for a free one here: https://home.openweathermap.org/users/sign_up')
-            logging.info('Example usage in Auth.yml:\n{}:\n  location: Sydney, AU-NSW, AU\n  app_id: 1234567890\n '.format(type(self).__name__))
+            logging.info('Example usage in Auth.yml:\n{}:\n  location: Sydney, AU-NSW, AU\n  app_id: 1234567890\n  units: metric (optional)'.format(type(self).__name__))
             raise AuthError
         return True
 
     def getCurrent(self):
-        resp = requests.get('https://api.openweathermap.org/data/2.5/weather?q={}&appid={}'.format(self.auth['location'],self.auth['app_id']))
+        resp = requests.get(
+            'https://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units={}'.format(self.auth['location'],
+                                                                                            self.auth['app_id'],
+                                                                                            self.auth.get('units',
+                                                                                                          'metric')))
         # {"coord":{"lon":151.2073,"lat":-33.8679},
         # "weather":[{"id":500,"main":"Rain","description":"light rain","icon":"10n"}],
         # "base":"stations",
@@ -36,7 +40,6 @@ class OpenWeather(App):
         # "dt":1643453131,
         # "sys":{"type":2,"id":2018875,"country":"AU","sunrise":1643397193,"sunset":1643446978},
         # "timezone":39600,"id":2147714,"name":"Sydney","cod":200}
-
         if resp.status_code == 200:
             return json.loads(resp.text)
         else:
@@ -48,29 +51,49 @@ class OpenWeather(App):
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
         if now_utc_ts < sunrise_utc_ts or now_utc_ts > sunset_utc_ts:
-            return True
+            result = True
         else:
-            return False
+            result = False
+        self.context.log(
+            'If [OpenWeather: is Nighttime - SunRise({}) < Now({}) < SunSet({})] = {}'.format(sunrise_utc_ts,
+                                                                                            now_utc_ts,
+                                                                                            sunset_utc_ts,
+                                                                                            result))
+        return result
 
     def is_before_nighttime(self, minutes):
         data = self.getCurrent()
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.now().timetuple()))
-        x_before_sunset = (sunset_utc_ts  - (minutes * 60))
+        x_before_sunset = (sunset_utc_ts - (minutes * 60))
         if now_utc_ts < x_before_sunset:
-            return True
+            result = True
         else:
-            return False
+            result = False
+        self.context.log(
+            'If [OpenWeather: is Before Nighttime - Now({}), {} Mins Before({}), SunSet({})] = {}'.format(now_utc_ts,
+                                                                                                        minutes,
+                                                                                                        x_before_sunset,
+                                                                                                        sunset_utc_ts,
+                                                                                                        result))
+        return result
 
     def is_after_nighttime(self, minutes):
         data = self.getCurrent()
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
         x_after_sunset = (sunset_utc_ts + (minutes * 60))
-        if  x_after_sunset < now_utc_ts:
-            return True
+        if x_after_sunset < now_utc_ts:
+            result = True
         else:
-            return False
+            result = False
+        self.context.log(
+            'If [OpenWeather: is After Nighttime - Now({}), {} Mins After({}), SunSet({})] = {}'.format(now_utc_ts,
+                                                                                                      minutes,
+                                                                                                      x_after_sunset,
+                                                                                                      sunset_utc_ts,
+                                                                                                      result))
+        return result
 
     def is_daytime(self):
         data = self.getCurrent()
@@ -78,9 +101,13 @@ class OpenWeather(App):
         sunset_utc_ts = data['sys']['sunset']
         now_utc_ts = int(time.mktime(datetime.datetime.utcnow().timetuple()))
         if sunrise_utc_ts < now_utc_ts < sunset_utc_ts:
-            return True
+            result = True
         else:
-            return False
+            result = False
+        self.context.log(
+            'If [OpenWeather: is Daytime - Sunrise({}), Now({}), Sunset({})] = {}'.format(sunrise_utc_ts, now_utc_ts,
+                                                                                          sunset_utc_ts, result))
+        return result
 
     def is_before_daytime(self, minutes):
         data = self.getCurrent()
@@ -120,11 +147,15 @@ class OpenWeather(App):
     
     def is_min_temperature_below_c(self, celsius):
         data = self.getCurrent()
-        if data['main']['temp_min'] < celsius:
-            self.context.log('If [OpenWeather: Min Temp Above {}c] [{}]: True'.format(celsius, data['main']['temp_min']))
-            return True
-        else:
-            self.context.log('If [OpenWeather: Min Temp Above {}c] [{}]: False'.format(celsius, data['main']['temp_min']))
+        try:
+            if data['main']['temp_min'] < celsius:
+                self.context.log('If [OpenWeather: Min Temp Above {}c] [{}]: True'.format(celsius, data['main']['temp_min']))
+                return True
+            else:
+                self.context.log('If [OpenWeather: Min Temp Above {}c] [{}]: False'.format(celsius, data['main']['temp_min']))
+                return False
+        except Exception as e:
+            logging.info(' OpenWeather API Response: {}'.format(data))
             return False
 
 

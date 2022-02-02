@@ -53,9 +53,9 @@ class Meross(App):
                     # Turns the power-plug on
                     print("\nTurning channel %d on..." % channel)
                     device.turn_on_channel(channel)
-                self.context.log('If [Meross: Action Turn Device On]: Success')
+                self.context.log('Action [Meross: Action Turn Device On]: Success')
                 return True
-        self.context.log('If [Meross: Action Turn Device On]: Unsuccessful')
+        self.context.log('Action [Meross: Action Turn Device On]: Unsuccessful')
         return False
 
     def action_off(self, device_uuid):
@@ -70,7 +70,7 @@ class Meross(App):
                     # Turns the power-plug on
                     print("\nTurning channel %d on..." % channel)
                     device.turn_off_channel(channel)
-                self.context.log('If [Meross: Action Turn Device Off]: Success')
+                self.context.log('Action [Meross: Action Turn Device Off]: Success')
                 return True
-        self.context.log('If [Meross: Action Turn Device Off]: Unsuccessful')
+        self.context.log('Action [Meross: Action Turn Device Off]: Unsuccessful')
         return False
