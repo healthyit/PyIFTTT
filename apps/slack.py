@@ -10,14 +10,14 @@ class Slack(App):
             'Example usage in Auth.yml:\n{}:\n'
             '  webhook: https://hooks.slack.com/services/123/456/789/'.format(type(self).__name__))
 
-    def auth_usage(self):
+    def check_auth(self):
         if not self.config['auth'].get(type(self).__name__, False):
             self.context.log('The {} App requires authorisation. '
                              'Please define [webhook] in your auth.yml file.'.format(type(self).__name__))
             self.check_auth_example()
             raise AuthError
         auth = self.config['auth'].get(type(self).__name__, {})
-        if not auth.get('username', False):
+        if not auth.get('webhook', False):
             self.context.log('The {} App requires authorisation. '
                              'Please define [webhook] in your auth.yml file.'.format(type(self).__name__))
             self.check_auth_example()

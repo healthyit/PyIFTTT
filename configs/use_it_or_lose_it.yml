@@ -3,7 +3,7 @@ if:
   - app: OpenWeather
     condition: is_min_temperature_below_c
     args:
-      celsius: 15
+      celsius: 25
   - app: OpenWeather
     condition: is_before_nighttime
     args:

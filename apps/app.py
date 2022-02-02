@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+from dateutil import tz
 
 
 class AuthError(Exception):
@@ -49,6 +51,15 @@ class App(object):
             self.check_auth_example()
             raise AuthError
         return True
+
+    @staticmethod
+    def futs(uts):
+        from_zone = tz.tzutc()
+        to_zone = tz.tzlocal()
+        utc = datetime.utcfromtimestamp(uts)
+        utc = utc.replace(tzinfo=from_zone)
+        local = utc.astimezone(to_zone)
+        return local.strftime('%Y/%m/%d %H:%M:%S %Z')
 
     def check_auth(self):
         self.context.log('No authorisation defined for {}.'.format(type(self).__name__))
