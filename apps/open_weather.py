@@ -68,7 +68,7 @@ class OpenWeather(App):
             result = False
         self.context.log(
             'If [OpenWeather: is Before Nighttime - '
-            'Now({}), {} Mins Before({}), SunSet({})] = {}'.format(App.futs(now_utc_ts),
+            'Now({}), {} Mins Before SunSet({}), SunSet({})] = {}'.format(App.futs(now_utc_ts),
                                                                    minutes,
                                                                    App.futs(x_before_sunset),
                                                                    App.futs(sunset_utc_ts),

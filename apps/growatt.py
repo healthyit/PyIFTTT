@@ -31,30 +31,30 @@ class Growatt(App):
         else:
             result = False
         self.context.log(
-            'If [Growatt: Battery Full - Battery Capacity({}%)] = {}'.format(plant_data['deviceList'][0]['capacity']),
-            result)
+            'If [Growatt: Battery Full - Battery Capacity({}%)] = {}'.format(plant_data['deviceList'][0]['capacity'],
+                                                                             result))
         return result
 
     def is_input_above(self, kw):
         self.init_api()
         plants = self.api.plant_list(self.user_id)
         plant_data = self.api.plant_info(plants['data'][0]['plantId'])
-        result = self.api.mix_system_status(plant_data['deviceList'][0]['deviceAilas'], plants['data'][0]['plantId'])
-        if float(result['ppv']) > kw:
+        api_result = self.api.mix_system_status(plant_data['deviceList'][0]['deviceAilas'], plants['data'][0]['plantId'])
+        if float(api_result['ppv']) > kw:
             result = True
         else:
             result = False
-        self.context.log('If [Growatt: Input Above {}kw ({}kw)] = {}'.format(kw, result['ppv'], result))
+        self.context.log('If [Growatt: Input Above {}kw ({}kw)] = {}'.format(kw, api_result['ppv'], result))
         return result
 
     def is_input_below(self, kw):
         self.init_api()
         plants = self.api.plant_list(self.user_id)
         plant_data = self.api.plant_info(plants['data'][0]['plantId'])
-        result = self.api.mix_system_status(plant_data['deviceList'][0]['deviceAilas'], plants['data'][0]['plantId'])
-        if float(result['ppv']) < kw:
+        api_result = self.api.mix_system_status(plant_data['deviceList'][0]['deviceAilas'], plants['data'][0]['plantId'])
+        if float(api_result['ppv']) < kw:
             result = True
         else:
             result = False
-        self.context.log('If [Growatt: Input Below {}kw ({}kw)] = {}'.format(kw, result['ppv'], result))
+        self.context.log('If [Growatt: Input Below {}kw ({}kw)] = {}'.format(kw, api_result['ppv'], result))
         return result
