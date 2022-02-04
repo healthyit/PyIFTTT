@@ -69,6 +69,9 @@ class App(object):
         logging.info('[+] Call {}: {}({})'.format(type(self).__name__, func, kwargs))
         if not hasattr(self, func):
             raise AttributeError('Specified fn [{}] does not exist in Class [{}]'.format(func, type(self).__name__))
-        result = getattr(self, func)(**kwargs)
-        logging.info('    [-] Result: {}'.format(result))
+        try:
+            result = getattr(self, func)(**kwargs)
+            logging.info('    [-] Result: {}'.format(result))
+        except Exception as e:
+            self.context.log(' [!] Unknown error in function {}:{}- '.format(type(self).__name__, func, e))
         return result
