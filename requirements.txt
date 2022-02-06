@@ -1,0 +1,6 @@
+growattServer
+docopt
+PyYAML
+meross-iot==0.2.1.1
+requests
+python-dateutil

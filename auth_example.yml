@@ -4,6 +4,9 @@ Growatt:
 OpenWeather:
   app_id: <enter here>
   location: Sydney, AU-NSW, AU
+  units: metric # (optional)
 Meross:
   username: <enter here>
   password: <enter here>
+Slack:
+  webhook: https://hooks.slack.com/services/123/456/789/

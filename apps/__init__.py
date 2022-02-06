@@ -3,3 +3,4 @@ from .growatt import *
 from .meross import *
 from .open_weather import *
 from .time import *
+from .slack import *
